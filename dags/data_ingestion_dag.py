@@ -1,6 +1,7 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
+from pytz import timezone  # 한국 시간대 설정을 위해 pytz 사용
 from dotenv import load_dotenv
 import os
 import requests
@@ -9,11 +10,14 @@ import pandas as pd
 import mysql.connector
 from mysql.connector import Error
 
+# 한국 시간대 설정
+KST = timezone('Asia/Seoul')
+
 # Airflow DAG 기본 설정
 default_args = {
-    'owner': 'airflow',  # DAG 소유자 (보통 'airflow'로 설정)
-    'depends_on_past': False,  # 이전 DAG 실행이 완료되었는지 여부에 관계없이 실행
-    'start_date': datetime(2023, 1, 1),  # DAG 시작 날짜
+    'owner': 'airflow',  # DAG 소유자
+    'depends_on_past': False,  # 이전 DAG 실행 여부와 관계없이 실행
+    'start_date': datetime(2024, 9, 8, hour=0, minute=0, tzinfo=KST),  # DAG 시작 날짜와 시간대 설정
     'email_on_failure': False,  # DAG 실패 시 이메일 알림을 보낼지 여부
     'email_on_retry': False,  # DAG 재시도 시 이메일 알림을 보낼지 여부
     'retries': 1,  # DAG 실패 시 재시도 횟수
@@ -26,7 +30,9 @@ dag = DAG(
     default_args=default_args,  # 기본 설정 적용
     description='미세먼지 데이터를 크롤링하고 MySQL에 저장하는 파이프라인',  # 설명
     schedule_interval=timedelta(days=1),  # 하루마다 실행
+    timezone='Asia/Seoul'  # 한국 시간대 설정
 )
+
 
 # .env 파일에서 환경 변수를 로드
 load_dotenv()
