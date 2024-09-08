@@ -15,22 +15,22 @@ KST = timezone('Asia/Seoul')
 
 # Airflow DAG 기본 설정
 default_args = {
-    'owner': 'airflow',  # DAG 소유자
-    'depends_on_past': False,  # 이전 DAG 실행 여부와 관계없이 실행
-    'start_date': datetime(2024, 9, 8, hour=0, minute=0, tzinfo=KST),  # DAG 시작 날짜와 시간대 설정
-    'email_on_failure': False,  # DAG 실패 시 이메일 알림을 보낼지 여부
-    'email_on_retry': False,  # DAG 재시도 시 이메일 알림을 보낼지 여부
-    'retries': 1,  # DAG 실패 시 재시도 횟수
-    'retry_delay': timedelta(minutes=5),  # 재시도 사이의 대기 시간
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'start_date': datetime(2024, 9, 8, hour=0, minute=0, tzinfo=KST),  # 시간대 설정은 여기서
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
 }
 
 # DAG 정의 (파이프라인의 이름, 기본 설정, 스케줄 간격 등)
 dag = DAG(
-    'fine_dust_data_pipeline',  # DAG 이름
-    default_args=default_args,  # 기본 설정 적용
-    description='미세먼지 데이터를 크롤링하고 MySQL에 저장하는 파이프라인',  # 설명
+    'fine_dust_data_pipeline',
+    default_args=default_args,
+    description='미세먼지 데이터를 크롤링하고 MySQL에 저장하는 파이프라인',
     schedule_interval=timedelta(days=1),  # 하루마다 실행
-    timezone='Asia/Seoul'  # 한국 시간대 설정
+    # timezone 인자를 제거해야 함
 )
 
 
