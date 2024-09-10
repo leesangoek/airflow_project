@@ -5,8 +5,8 @@ import os
 load_dotenv()
 
 # 환경 변수 가져오기
-API_URL = os.getenv('API_URL')
-SERVICE_KEY = os.getenv('SERVICE_KEY')
+DUST_API_URL = os.getenv('DUST_API_URL')
+DUST_SERVICE_KEY = os.getenv('DUST_SERVICE_KEY')
 
 DB_HOST = os.getenv('DB_HOST')
 DB_PORT = os.getenv('DB_PORT', 3306)
